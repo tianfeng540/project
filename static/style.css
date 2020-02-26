@@ -14,6 +14,7 @@ footer{
 /* 头像 */
 .avatar{
     width: 40px;
+    margin-left: 200px;    
 }
 
 /* 电影列表 */
@@ -34,11 +35,11 @@ footer{
     display: block;
     margin: 0 auto;
     height: 100px;
-}
+}px
 nav ul{
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 40px;
     overflow: hidden;
     background-color: #333333
 }

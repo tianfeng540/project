@@ -12,14 +12,14 @@
 </head>
 
 <body>
-    <!-- {% for message in get_flashed_messages() %}
-        <div class="alert">{{ message }}</div>
-    {% endfor %} -->
+    {% for message in get_flashed_messages() %}
+        <h1 class="alert">{{ message }}</h1>
+    {% endfor %}
     <h2>
         <img class="avatar" src="{{ url_for('static',filename='images/1.jpg') }}" alt="头像">
         {{ user.name }} 的电影列表
     </h2>
-    <nav>
+    <nav">
         <ul>
             <li>
                 <a href="{{ url_for('index') }}">主页</a>
