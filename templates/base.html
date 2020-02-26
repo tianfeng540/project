@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block head %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{{ url_for('static',filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}">
+    <title>{{ user.name }} 的电影列表 </title>
+    {% endblock %}
+</head>
+
+<body>
+    <!-- {% for message in get_flashed_messages() %}
+        <div class="alert">{{ message }}</div>
+    {% endfor %} -->
+    <h2>
+        <img class="avatar" src="{{ url_for('static',filename='images/1.jpg') }}" alt="头像">
+        {{ user.name }} 的电影列表
+    </h2>
+    <nav>
+        <ul>
+            <li>
+                <a href="{{ url_for('index') }}">主页</a>
+            </li>
+        </ul>
+    </nav>
+    {% block content %} {% endblock %}
+    <footer>
+        <small>&copy;<a href="http://www.bwzn.com">北京网络职业技术学院-人工智能学科</a></small>
+    </footer>
+</body>
+
+</html>

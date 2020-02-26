@@ -1,30 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="icon" href="{{ url_for('static',filename='favicon.ico') }}" type="image/x-icon">
-    <link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}" >
-    <title>{{ user.name }} 的电影列表 </title>
-</head>
-<body>
-    <h2>
-        <img class="avatar" src="{{ url_for('static',filename='images/1.jpg') }}" alt="头像">
-        {{ user.name }}的电影列表
-    </h2>
-    {# 使用length过滤器获取movies变量的长度 #}
-    <p>{{ movies|length }}</p>
-    <ul class="movie-list">
-        {% for movie in movies %}
-        <li>{{ movie.title }} - {{ movie.year }}</li>
-        {% endfor %}
-    </ul>
+{% extends 'base.html' %}
 
-    <img class="hulu" src="{{ url_for('static',filename='images/2.jpg') }}" alt="头像">
-    
-    <footer>
-        <small>&copy; 2020 <a href="http://www.souhu.com">北京网络职业技术学院-人工智能学科</a></small>
-    </footer>
-</body>
-</html>
+{% block content %}
+<p>{{ movies|length }}</p>
+<ul class="movie-list">
+    {% for movie in movies %}
+    <li>
+        {{ movie.title }} - {{ movie.year }}
+        <span class='float-right'>
+            <a class="vbaidu"
+                href="http://v.baidu.com/v?word={{ movie.title }}&ct=301989888&rn=67&pn=0&db=0&s=0&fbl=800&ie=utf-8&oq=nnkd&f=3&rsp=0"
+                target="_blank" title="在IMDb中查找此电影">百度视频</a>
+        </span>
+    </li>
+    {% endfor %}
+</ul>
+<img class="hulu" src="{{ url_for('static',filename='images/2.jpg') }}" alt="">
+{% endblock %}

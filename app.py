@@ -88,8 +88,9 @@ def index():
         flash('数据创建成功')
         return redirect(url_for('index'))
 
+    # user = User.query.first()
     movies = Movie.query.all()
-    return render_template('index.html', movies=movies)
+    return render_template('index.html',movies=movies)
 
 
 # 编辑电影信息页面
@@ -123,12 +124,15 @@ def delete(movie_id):
     return redirect(url_for('index'))
 
 
-@app.errorhandler(404)  # 传入要处理的错误代码
+#出来页面404错误
+@app.errorhandler(404)  
 def page_not_found(e):
+    # user = User.query.first()
     return render_template('404.html'), 404
 
 
-@app.context_processor  # 模板上下文处理函数
+# 模板上下文处理函数，在多个模板内都需要使用的变量
+@app.context_processor  
 def inject_user():
     user = User.query.first()
     return dict(user=user)
