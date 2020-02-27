@@ -64,7 +64,7 @@ nav li a:hover{
     font-weight: bolder;
     color: black;
     text-decoration: none;
-    background: #f5c518;
+    background: blue;
     border-radius: 5px;
     box-sizing: 5px 5px;
 }
