@@ -25,10 +25,17 @@ db = SQLAlchemy(app)
 
 
 # 创建数据库模型类
-class User(db.Model):
+class User(db.Model,UserMixin):
     id = db.Column(db.Integer, primary_key=True)  # 主键
     name = db.Column(db.String(20))
+    username = db.Column(db.String(20))  # 用户名
+    password_hash = db.Column(db.String(128))  # 密码散列值
 
+    def set_password(self,password):
+        self.password_hash = generate_password_hash(password)
+    def validate_password(self,password):
+        return check_password_hash(self.password_hash,password)
+    
 
 class Movie(db.Model):
     id = db.Column(db.Integer, primary_key=True)  # 主键
@@ -38,7 +45,7 @@ class Movie(db.Model):
 
 # 自定义initdb
 @app.cli.command()
-@click.option('--drop', is_flag=True, help='删除之后再创建')
+@click.option('--drop', is_flag=True, help='Create after drop')
 def initdb(drop):
     if drop:
         db.drop_all()
@@ -74,7 +81,7 @@ def forge():
 # 生成admin账号的函数
 @app.cli.command()
 @click.option('--username',prompt=True,help="用来登录的用户名")
-@click.option('--password',prompt=True,hide_input=True,confirmation_prompt=True,help="用来登录的密码")
+@click.option('--password',prompt=True,confirmation_prompt=True,help="用来登录的密码")
 def admin(username,password):
     db.create_all()
     user = User.query.first()
@@ -84,7 +91,7 @@ def admin(username,password):
         user.set_password(password)
     else:
         click.echo('创建用户')
-        user = User(username=username,name="雷洛")
+        user = User(username=username,name="Bruce")
         user.set_password(password)
         db.session.add(user)
     
@@ -98,15 +105,17 @@ login_manager = LoginManager(app)   # 实例化扩展类
 def load_user(user_id):   # 创建用户加载回调函数，接受用户ID作为参数
     user = User.query.get(int(user_id))
     return user
-
-#
 login_manager.login_view = 'login'
 login_manager.login_message = "没有登录"
+
 
 # 首页
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
+        if not current_user.is_authenticated:
+            return redirect(url_for('index'))
+
         # 获取表单的数据
         title = request.form.get('title')
         year = request.form.get('year')
@@ -129,6 +138,7 @@ def index():
 
 # 编辑电影信息页面
 @app.route('/movie/edit/<int:movie_id>', methods=['GET', 'POST'])
+@login_required
 def edit(movie_id):
     movie = Movie.query.get_or_404(movie_id)
 
@@ -167,6 +177,7 @@ def settings():
 
 # 删除信息
 @app.route('/movie/delete/<int:movie_id>', methods=['POST'])
+@login_required #装饰器，没登录不能看
 def delete(movie_id):
     movie = Movie.query.get_or_404(movie_id)
     db.session.delete(movie)

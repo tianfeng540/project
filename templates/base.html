@@ -23,6 +23,13 @@
         <ul>
             <li>
                 <a href="{{ url_for('index') }}">主页</a>
+                {% if current_user.is_authenticated %}
+                <a href="{{ url_for('login') }}" style="margin-left: 100px;">登陆</a>
+                <a href="{{ url_for('logout') }}" style="margin-left: 100px;">登出</a>
+                <a href="{{ url_for('settings') }}" style="margin-left: 100px;">设置name</a>
+                {% else %}
+                <a href="{{ url_for('login') }}" style="margin-left: 150px;">登陆</a>
+                {% endif %}
             </li>
         </ul>
     </nav>

@@ -72,6 +72,7 @@ nav li a:hover{
 /* 美化input标签 */
 input[type=submit] {
     font-family: inherit;
+    border: aliceblue;
 }
 input[type=text] {
     border: 1px solid black;
