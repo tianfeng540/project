@@ -2,8 +2,9 @@ import unittest
 
 from app import app,db,Movie,User
 
-class WatchlistTestCase(unittest.TestCase):
+class ProjectTestCase(unittest.TestCase):
     def setUp(self):
+        # SetUp是每一个测试程序运行之前
         # 更新配置  在开发和测试时候通常配置是不一样
         app.config.update(
             TESTING=True,  # 开启测试模式  出错时候不会输出多余的信息
@@ -23,6 +24,7 @@ class WatchlistTestCase(unittest.TestCase):
 
 
     def tearDown(self):
+        # tearDown 每一个测试程序运行之后
         db.session.remove()  # 清除数据库会话
         db.drop_all()  # 删除数据库表
 
@@ -39,7 +41,7 @@ class WatchlistTestCase(unittest.TestCase):
     def test_404_page(self):
         response = self.client.get('/lalala')  # 传入一个不存在路由
         data = response.get_data(as_text=True)  # 获取Unicode格式的响应主体
-        self.assertIn('404 - 页面跑丢了',data)
+        self.assertIn('页面跑丢了',data)
         self.assertIn('返回首页',data)
         self.assertEqual(response.status_code,404)  # 判断响应状态码
     
@@ -47,7 +49,7 @@ class WatchlistTestCase(unittest.TestCase):
     def test_index_page(self):
         response = self.client.get('/')
         data = response.get_data(as_text=True)
-        self.assertIn('Test\'s 博客',data)
+        self.assertIn('Test 的电影列表',data)
         self.assertIn('测试电影名称',data)
         self.assertEqual(response.status_code,200)
     
