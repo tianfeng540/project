@@ -1,6 +1,7 @@
 import unittest
 
-from app import app,db,Movie,User
+from blog import app,db
+from blog.models import User,Movie
 
 class ProjectTestCase(unittest.TestCase):
     def setUp(self):
